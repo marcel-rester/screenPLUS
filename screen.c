@@ -1,4 +1,16 @@
 /* --- PFAD: ./.pc/26source_encoding.patch/process.c --- */
+/*
+ * PSEUDOCODE:
+ *   - parse command-line arguments for standard screen options
+ *   - support --param name template to define reusable command templates
+ *   - support --parstart name to launch a named procedure
+ *   - support --routine and --endsWith suffix to wait for new files
+ *       and substitute %file into the command before launching
+ *   - support -d [on|off] [session-file] for detached restart and autostart
+ *   - if a session file exists, read the saved session name and autostart flag
+ *   - when detached with restart_on_failure, restart the session on failure
+ *   - write session file with socket name and autostart state
+ */
 /* Copyright (c) 2026
  *      Marcel Rester (marcel.rester@htlstp.ac.at)
 /* Copyright (c) 2010
@@ -32,8 +44,7 @@
  ****************************************************************
  */
 
-#include "config.h"
-
+ // rekursiv !
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <signal.h>
@@ -52,12 +63,27 @@
 # include <sys/stropts.h>
 #endif
 
-#include "screen.h"
-#include "extern.h"
-#include "logfile.h"
-#include "layout.h"
-#include "viewport.h"
-#include "list_generic.h"
+// #include "screen.h"
+// #include "extern.h"
+// #include "logfile.h"
+// #include "layout.h"
+// #include "viewport.h"
+// #include "list_generic.h"
+// #include "os.h"
+// #include "osdef.h"
+// #include "ansi.h"
+// #include "sched.h"
+// #include "acls.h"
+// #include "comm.h"
+// #include "layer.h"
+// #include "term.h"
+// #include "image.h"
+// #include "canvas.h"
+// #include "display.h"
+// #include "window.h"
+// #include "braille.h"
+// #include "mark.h"
+// #include "patchlevel.h"
 
 extern struct comm comms[];
 extern char *rc_name;
@@ -7447,9 +7473,6 @@ struct mchar *mc;
  */
 
 #include <sys/types.h>
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 extern struct display *display, *displays;
 extern int real_uid, real_gid, eff_uid, eff_gid;
@@ -9527,7 +9550,6 @@ typedef struct fd_set { int fds_bits[1]; } fd_set;
  * $Id$ GNU
  */
 
-#include "os.h"
 
 #if defined(__STDC__)
 # ifndef __P
@@ -9540,14 +9562,7 @@ typedef struct fd_set { int fds_bits[1]; } fd_set;
 # define const
 #endif
 
-#include "osdef.h"
 
-#include "ansi.h"
-#include "sched.h"
-#include "acls.h"
-#include "comm.h"
-#include "layer.h"
-#include "term.h"
 
 
 #ifdef DEBUG
@@ -9645,10 +9660,6 @@ struct mode
 
 
 /* #include "logfile.h" */	/* (requires stat.h) struct logfile */
-#include "image.h"
-#include "canvas.h"
-#include "display.h"
-#include "window.h"
 
 /*
  * Parameters for the Detach() routine
@@ -9845,7 +9856,6 @@ struct baud_values
  ****************************************************************
  */
 
-#include "config.h"
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
@@ -9862,7 +9872,6 @@ struct baud_values
 # include <signal.h>
 #endif
 
-#include "screen.h"
 
 #ifdef HAVE_DIRENT_H
 # include <dirent.h>
@@ -9878,8 +9887,6 @@ struct baud_values
 #define CMSG_SPACE(length) ((_CMSG_DATA_ALIGN(sizeof(struct cmsghdr))) + (_CMSG_DATA_ALIGN(length)))
 #endif
 
-#include "extern.h"
-#include "list_generic.h"
 
 static int   CheckPid __P((int));
 static void  ExecCreate __P((struct msg *));
@@ -11793,7 +11800,6 @@ const char *path;
  * $Id$ GNU
  */
 
-#include "os.h"
 
 #if defined(__STDC__)
 # ifndef __P
@@ -11806,14 +11812,7 @@ const char *path;
 # define const
 #endif
 
-#include "osdef.h"
 
-#include "ansi.h"
-#include "sched.h"
-#include "acls.h"
-#include "comm.h"
-#include "layer.h"
-#include "term.h"
 
 
 #ifdef DEBUG
@@ -11911,10 +11910,6 @@ struct mode
 
 
 /* #include "logfile.h" */	/* (requires stat.h) struct logfile */
-#include "image.h"
-#include "canvas.h"
-#include "display.h"
-#include "window.h"
 
 /*
  * Parameters for the Detach() routine
@@ -12108,9 +12103,6 @@ struct baud_values
 
 #include <sys/types.h>
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 #ifdef ENCODINGS
 
@@ -14777,9 +14769,6 @@ extern int   LayoutDumpCanvas __P((struct canvas *, char *));
 #include <sys/stat.h>	/* mkdir() declaration */
 #include <signal.h>
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 #ifdef SVR4
 # include <sys/resource.h>
@@ -15497,7 +15486,6 @@ xvsnprintf(char *s, int n, char *fmt, xva_list stack)
  ****************************************************************
  */
 
-#include "config.h"
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
@@ -15514,7 +15502,6 @@ xvsnprintf(char *s, int n, char *fmt, xva_list stack)
 # include <signal.h>
 #endif
 
-#include "screen.h"
 
 #ifdef HAVE_DIRENT_H
 # include <dirent.h>
@@ -15530,8 +15517,6 @@ xvsnprintf(char *s, int n, char *fmt, xva_list stack)
 #define CMSG_SPACE(length) ((_CMSG_DATA_ALIGN(sizeof(struct cmsghdr))) + (_CMSG_DATA_ALIGN(length)))
 #endif
 
-#include "extern.h"
-#include "list_generic.h"
 
 static int   CheckPid __P((int));
 static void  ExecCreate __P((struct msg *));
@@ -17450,11 +17435,6 @@ const char *path;
 # include <sys/ioctl.h>
 #endif
 
-#include "config.h"
-#include "screen.h"
-#include "braille.h"
-#include "extern.h"
-#include "logfile.h"
 
 extern struct display *display, *displays;
 extern struct win *fore;	/* for 83 escape */
@@ -20662,11 +20642,6 @@ int what;
 # include <sys/ioctl.h>
 #endif
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "braille.h"
-#include "canvas.h"
 
 /* CSI parsing status */
 enum
@@ -24744,9 +24719,6 @@ char **cmdv;
 #ifndef SCREEN_DISPLAY_H
 #define SCREEN_DISPLAY_H
 
-#include "layout.h"
-#include "canvas.h"
-#include "viewport.h"
 
 #ifdef MAPKEYS
 
@@ -25604,11 +25576,6 @@ extern int   LayoutDumpCanvas __P((struct canvas *, char *));
 
 #include <sys/types.h>
 
-#include "config.h"
-#include "screen.h"
-#include "mark.h"
-#include "extern.h"
-#include "braille.h"
 
 extern struct display *display, *displays;
 
@@ -26861,11 +26828,7 @@ void LayerCleanupMemory(struct layer *layer)
 # include <sys/ioctl.h>
 #endif
 
-#include "config.h"
 
-#include "screen.h"
-#include "extern.h"
-#include "logfile.h"	/* logfopen() */
 
 extern struct display *displays, *display;
 extern struct win *windows, *fore, *console_window;
@@ -29572,15 +29535,12 @@ int OpenDevice __P((char **, int, int *, char **));
  ****************************************************************
  */
 
-#include "config.h"
 #include <stdbool.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <signal.h>
-#include "screen.h"
-#include "extern.h"
 
 #include <pwd.h>
 
@@ -30731,7 +30691,6 @@ int query;
 # include <signal.h>
 #endif
 
-#include "config.h"
 
 #ifdef HAVE_STROPTS_H
 # include <sys/stropts.h>
@@ -30761,12 +30720,9 @@ int query;
 # include <langinfo.h>
 #endif
 
-#include "screen.h"
 #ifdef HAVE_BRAILLE
-# include "braille.h"
 #endif
 
-#include "patchlevel.h"
 
 /*
  *  At the moment we only need the real password if the
@@ -30782,7 +30738,6 @@ int query;
 # include <shadow.h>
 #endif /* SHADOWPW */
 
-#include "logfile.h" /* islogfile, logfflush, logfopen/logfclose */
 
 #ifdef DEBUG
 FILE *dfp;
@@ -30932,7 +30887,6 @@ int af;
 /*
  * Do this last
  */
-#include "extern.h"
 
 char strnomem[] = "Out of memory.";
 
@@ -31048,10 +31002,16 @@ int main(int ac, char** av)
 #endif
   struct NewWindow nwin;
   int detached = 0;		/* start up detached */
+  /* Detached restart and session-file support:
+   *   - -d enables restart-on-failure
+   *   - -d on|off toggles autostart in the saved session file
+   *   - session_file stores the socket name plus autostart state
+   */
   int restart_on_failure = 0;
   int autostart_enabled = -1;
   char *session_file = NULL;
   char session_file_buf[MAXSTR];
+  /* Procedure/template support for --param, --parstart, --routine, --endsWith */
   char *proc_name = NULL;
   char *proc_template = NULL;
   int proc_start = 0;
@@ -31216,6 +31176,9 @@ int main(int ac, char** av)
       if (ap[1] == '-' && !strcmp(ap, "--help"))
         exit_with_usage(myname, NULL, NULL);
       if (ap[1] == '-' && !strcmp(ap, "--param")) {
+        /* Define a reusable command template. The template may use %1, %2, etc.
+         * The stored name can later be launched via --parstart.
+         */
         if (ac <= 1)
           exit_with_usage(myname, "Specify a procedure name with --param", NULL);
         proc_name = SaveStr(*++av);
@@ -31458,6 +31421,11 @@ int main(int ac, char** av)
 
 #ifdef REMOTE_DETACH
           case 'd':
+          /* -d [session] [file]
+           *   Enable detached restart-on-failure using an optional session file.
+           * -d on|off [session]
+           *   Toggle autostart state within the session file.
+           */
             if (*(ap + 1) == '\0') {
               restart_on_failure = 1;
               if (ac > 1 && *av[1] != '-' && !SockMatch) {
@@ -31553,6 +31521,9 @@ int main(int ac, char** av)
       break;
   }
 
+  /* Routine mode watches for a new file matching the suffix and
+   * substitutes %file into the remaining arguments before launching.
+   */
   if (routine_mode && trigger_suffix) {
     while (!trigger_file) {
       DIR *dir = opendir(".");
@@ -31604,6 +31575,9 @@ int main(int ac, char** av)
     }
   }
 
+  /* Routine mode watches for a new file matching the suffix and
+   * substitutes %file into the remaining arguments before launching.
+   */
   if (routine_mode && trigger_suffix) {
     while (!trigger_file) {
       DIR *dir = opendir(".");
@@ -31655,6 +31629,9 @@ int main(int ac, char** av)
     }
   }
 
+  /* Routine mode watches for a new file matching the suffix and
+   * substitutes %file into the remaining arguments before launching.
+   */
   if (routine_mode && trigger_suffix) {
     while (!trigger_file) {
       DIR *dir = opendir(".");
@@ -32290,6 +32267,10 @@ child_start:
   ServerSocket = MakeServerSocket(true);
 
   if (session_file) {
+    /* Persist the session file in a simple text format:
+     *   <session-name>
+     *   autostart:on|off
+     */
     FILE *sf = fopen(session_file, "w");
     if (!sf)
       Panic(errno, "Cannot write session file %s", session_file);
@@ -34443,7 +34424,6 @@ void SetTtyname(bool fatal, struct stat *st)
 # include <signal.h>
 #endif
 
-#include "config.h"
 
 #ifdef HAVE_STROPTS_H
 # include <sys/stropts.h>
@@ -34473,12 +34453,9 @@ void SetTtyname(bool fatal, struct stat *st)
 # include <langinfo.h>
 #endif
 
-#include "screen.h"
 #ifdef HAVE_BRAILLE
-# include "braille.h"
 #endif
 
-#include "patchlevel.h"
 
 /*
  *  At the moment we only need the real password if the
@@ -34494,7 +34471,6 @@ void SetTtyname(bool fatal, struct stat *st)
 # include <shadow.h>
 #endif /* SHADOWPW */
 
-#include "logfile.h" /* islogfile, logfflush, logfopen/logfclose */
 
 #ifdef DEBUG
 FILE *dfp;
@@ -34642,7 +34618,6 @@ int af;
 /*
  * Do this last
  */
-#include "extern.h"
 
 char strnomem[] = "Out of memory.";
 
@@ -34758,10 +34733,16 @@ int main(int ac, char** av)
 #endif
   struct NewWindow nwin;
   int detached = 0;		/* start up detached */
+  /* Detached restart and session-file support:
+   *   - -d enables restart-on-failure
+   *   - -d on|off toggles autostart in the saved session file
+   *   - session_file stores the socket name plus autostart state
+   */
   int restart_on_failure = 0;
   int autostart_enabled = -1;
   char *session_file = NULL;
   char session_file_buf[MAXSTR];
+  /* Procedure/template support for --param, --parstart, --routine, --endsWith */
   char *proc_name = NULL;
   char *proc_template = NULL;
   int proc_start = 0;
@@ -34926,6 +34907,9 @@ int main(int ac, char** av)
       if (ap[1] == '-' && !strcmp(ap, "--help"))
         exit_with_usage(myname, NULL, NULL);
       if (ap[1] == '-' && !strcmp(ap, "--param")) {
+        /* Define a reusable command template. The template may use %1, %2, etc.
+         * The stored name can later be launched via --parstart.
+         */
         if (ac <= 1)
           exit_with_usage(myname, "Specify a procedure name with --param", NULL);
         proc_name = SaveStr(*++av);
@@ -35168,6 +35152,11 @@ int main(int ac, char** av)
 
 #ifdef REMOTE_DETACH
           case 'd':
+          /* -d [session] [file]
+           *   Enable detached restart-on-failure using an optional session file.
+           * -d on|off [session]
+           *   Toggle autostart state within the session file.
+           */
             if (*(ap + 1) == '\0') {
               restart_on_failure = 1;
               if (ac > 1 && *av[1] != '-' && !SockMatch) {
@@ -35844,6 +35833,10 @@ child_start:
   ServerSocket = MakeServerSocket(true);
 
   if (session_file) {
+    /* Persist the session file in a simple text format:
+     *   <session-name>
+     *   autostart:on|off
+     */
     FILE *sf = fopen(session_file, "w");
     if (!sf)
       Panic(errno, "Cannot write session file %s", session_file);
@@ -37944,7 +37937,6 @@ void SetTtyname(bool fatal, struct stat *st)
  ****************************************************************
  */
 
-#include "config.h"
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
@@ -37961,7 +37953,6 @@ void SetTtyname(bool fatal, struct stat *st)
 # include <signal.h>
 #endif
 
-#include "screen.h"
 
 #ifdef HAVE_DIRENT_H
 # include <dirent.h>
@@ -37977,8 +37968,6 @@ void SetTtyname(bool fatal, struct stat *st)
 #define CMSG_SPACE(length) ((_CMSG_DATA_ALIGN(sizeof(struct cmsghdr))) + (_CMSG_DATA_ALIGN(length)))
 #endif
 
-#include "extern.h"
-#include "list_generic.h"
 
 static int   CheckPid __P((int));
 static void  ExecCreate __P((struct msg *));
@@ -39892,7 +39881,6 @@ const char *path;
  ****************************************************************
  */
 
-#include "config.h"
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
@@ -39909,7 +39897,6 @@ const char *path;
 # include <signal.h>
 #endif
 
-#include "screen.h"
 
 #ifdef HAVE_DIRENT_H
 # include <dirent.h>
@@ -39925,8 +39912,6 @@ const char *path;
 #define CMSG_SPACE(length) ((_CMSG_DATA_ALIGN(sizeof(struct cmsghdr))) + (_CMSG_DATA_ALIGN(length)))
 #endif
 
-#include "extern.h"
-#include "list_generic.h"
 
 static int   CheckPid __P((int));
 static void  ExecCreate __P((struct msg *));
@@ -42427,7 +42412,6 @@ const char *path;
  ****************************************************************
  */
 
-#include "config.h"
 
 #include <sys/types.h>
 
@@ -42447,8 +42431,6 @@ const char *path;
 # include <syslog.h>
 #endif
 
-#include "screen.h"	/* includes acls.h */
-#include "extern.h"
 
 /************************************************************************
  * user managing code, this does not really belong into the acl stuff   *
@@ -43580,11 +43562,6 @@ extern int DefaultEsc, DefaultMetaEsc;
 # include <sys/ioctl.h>
 #endif
 
-#include "config.h"
-#include "screen.h"
-#include "braille.h"
-#include "extern.h"
-#include "logfile.h"
 
 extern struct display *display, *displays;
 extern struct win *fore;	/* for 83 escape */
@@ -46974,15 +46951,12 @@ enum move_t {
  ****************************************************************
  */
 
-#include "config.h"
 #include <stdbool.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <signal.h>
-#include "screen.h"
-#include "extern.h"
 
 #include <pwd.h>
 
@@ -48070,10 +48044,6 @@ int query;
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "braille.h"
 
 #ifdef HAVE_BRAILLE
 
@@ -49101,10 +49071,6 @@ extern struct braille_display bd;
  ****************************************************************
  */
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "braille.h"
 
 #ifdef HAVE_BRAILLE
 
@@ -49418,11 +49384,6 @@ buttonpress_powerbraille_80()
  ****************************************************************
  */
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "canvas.h"
-#include "list_generic.h"
 
 extern struct display *display;
 extern struct win *fore, *windows;
@@ -50452,10 +50413,6 @@ extern void  PutWindowCv __P((struct canvas *));
  ****************************************************************
  */
 
-#include "config.h"
-#include "os.h"
-#include "acls.h"
-#include "comm.h"
 
 #define bcopy :-(		/* or include screen.h here */
 
@@ -50802,11 +50759,6 @@ struct comm comms[RC_LAST + 1] =
 # include <sys/ioctl.h>
 #endif
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "braille.h"
-#include "canvas.h"
 
 /* CSI parsing status */
 enum
@@ -54934,9 +54886,6 @@ char **cmdv;
 #ifndef SCREEN_DISPLAY_H
 #define SCREEN_DISPLAY_H
 
-#include "layout.h"
-#include "canvas.h"
-#include "viewport.h"
 
 #ifdef MAPKEYS
 
@@ -55273,9 +55222,6 @@ while (0)
 #include <sys/types.h>
 #include <wchar.h>
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 #ifdef ENCODINGS
 
@@ -57835,9 +57781,6 @@ extern int   LayoutDumpCanvas __P((struct canvas *, char *));
 # include <signal.h>
 #endif
 
-#include "config.h" 
-#include "screen.h"
-#include "extern.h"
 
 extern struct display *display, *displays;
 extern struct win *fore;
@@ -58622,10 +58565,6 @@ readpipe(char **cmdv)
 
 #include <sys/types.h>
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "list_generic.h"
 
 char version[60];      /* initialised by main() */
 
@@ -58673,12 +58612,12 @@ void exit_with_usage(char *myname, char *message, char *arg)
 #if defined(LOGOUTOK) && defined(UTMPOK)
   printf("-l            Login mode on (update %s), -ln = off.\n", UTMPFILE);
 #endif
-  printf("-d [session] [file] Detached: restart on failure, read/save session file.\n");
-  printf("-d on|off      Toggle autostart in the session file.\n");
-  printf("--param name tpl   Define procedure 'name' with template %%1, %%2, etc.\n");
-  printf("--parstart name    Launch procedure 'name' with arguments.\n");
-  printf("--routine       Wait for a new file and trigger a screen session.\n");
-  printf("--endsWith suf  Trigger only when a new filename ends with suf.\n");
+  printf("-d [session] [file] Detached: restart on failure, read/save session file, and preserve autostart state.\n");
+  printf("-d on|off      Toggle autostart for this session in the saved session file.\n");
+  printf("--param name tpl   Define reusable procedure 'name' with template %%1, %%2, %%file, etc.\n");
+  printf("--parstart name    Launch the named procedure using the current arguments.\n");
+  printf("--routine       Watch for a new file and automatically start a dedicated screen session.\n");
+  printf("--endsWith suf  Only trigger when a new filename ends with the given suffix.\n");
   printf("-ls [match]   or\n");
   printf("-list         Do nothing, just list our SockDir [on possible matches].\n");
   printf("-L            Turn on output logging.\n");
@@ -59755,9 +59694,6 @@ enum
  */
 
 #include <sys/types.h>
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 #define INPUTLINE (flayer->l_height - 1)
 
@@ -60289,11 +60225,6 @@ int y, xs, xe, isblank;
 
 #include <sys/types.h>
 
-#include "config.h"
-#include "screen.h"
-#include "mark.h"
-#include "extern.h"
-#include "braille.h"
 
 extern struct display *display, *displays;
 
@@ -61727,10 +61658,6 @@ void LayerCleanupMemory __P((struct layer *layer));
  ****************************************************************
  */
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "layout.h"
 
 extern struct display *display;
 extern int captionalways;
@@ -62084,7 +62011,6 @@ int RenumberLayout(struct layout *layout, int number)
 #ifndef SCREEN_LAYOUT_H
 #define SCREEN_LAYOUT_H
 
-#include "canvas.h"
 
 #define MAXLAY 10
 
@@ -62151,11 +62077,7 @@ extern int RenumberLayout __P((struct layout *, int));
 
 /* Deals with the list of displays */
 
-#include "config.h"
 
-#include "screen.h"
-#include "extern.h"
-#include "list_generic.h"
 
 #ifdef MULTI
 
@@ -62388,11 +62310,6 @@ display_displays()
  ****************************************************************
  */
 
-#include "config.h"
-#include "screen.h"
-#include "list_generic.h"
-#include "layer.h"
-#include "extern.h"
 
 /* Deals with a generic list display */
 
@@ -62960,11 +62877,6 @@ void display_windows __P((int onblank, int order, struct win *group));
  * verify that the window does exist (by looking at wtab[]).
  */
 
-#include "config.h"
-#include "screen.h"
-#include "layer.h"
-#include "extern.h"
-#include "list_generic.h"
 
 extern struct layer *flayer;
 extern struct display *display, *displays;
@@ -63689,10 +63601,7 @@ WListLinkChanged()
 extern int getkerninfo(int op, char *buf, int *buf_size, int32long64_t arg);
 #endif
 
-#include "config.h"
-#include "screen.h"
 
-#include "extern.h"
 
 #ifdef LOADAV
 
@@ -64071,10 +63980,6 @@ char *p;
 #include <sys/stat.h>		/* struct stat */
 #include <fcntl.h>		/* O_WRONLY for logfile_reopen */
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "logfile.h"
 
 static void changed_logfile __P((struct logfile *));
 static struct logfile *lookup_logfile __P((char *));
@@ -64414,10 +64319,6 @@ int lf_move_fd __P((int fd, int wantfd));
 #include <sys/types.h>
 #include <ctype.h>
 
-#include "config.h"
-#include "screen.h"
-#include "mark.h"
-#include "extern.h"
 
 #ifdef COPY_PASTE
 
@@ -65930,9 +65831,6 @@ struct markdata
 #include <signal.h>
 #include <fcntl.h>
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 #ifdef SVR4
 # include <sys/resource.h>
@@ -66687,8 +66585,6 @@ time_t GetUptime(void) {
  ****************************************************************
  */
 
-#include "config.h"
-#include "screen.h"
 
 #ifdef NETHACK
 extern int nethackflag;
@@ -67904,7 +67800,6 @@ typedef struct fd_set { int fds_bits[1]; } fd_set;
  ****************************************************************
  */
 
-#include "config.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -67924,12 +67819,6 @@ typedef struct fd_set { int fds_bits[1]; } fd_set;
 # include <sys/stropts.h>
 #endif
 
-#include "screen.h"
-#include "extern.h"
-#include "logfile.h"
-#include "layout.h"
-#include "viewport.h"
-#include "list_generic.h"
 
 extern struct comm comms[];
 extern char *rc_name;
@@ -75327,8 +75216,6 @@ struct mchar *mc;
 #include <utils.h>  /* for openpty() */
 #endif
 
-#include "config.h"
-#include "screen.h"
 
 #ifndef sun
 # include <sys/ioctl.h>
@@ -75353,7 +75240,6 @@ struct mchar *mc;
 # include <sys/sysmacros.h>
 #endif /* sgi */
 
-#include "extern.h"
 
 /*
  * if no PTYRANGE[01] is in the config file, we pick a default
@@ -75780,7 +75666,6 @@ char *GetPtsPathOrSymlink(int fd)
  *    call putenv(), then doing realloc() uniformly later on.
  */
 
-#include "config.h"
 
 #ifdef NEEDPUTENV
 
@@ -75977,9 +75862,6 @@ moreenv()
 # include <sys/pty.h>
 #endif
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 /* maximum window width */
 #define MAXWIDTH 1000
@@ -77107,9 +76989,6 @@ struct win *p;
 #endif
 #include <sys/time.h>
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 static struct event *evs;
 static struct event *tevs;
@@ -77466,7 +77345,6 @@ struct event
 # include <signal.h>
 #endif
 
-#include "config.h"
 
 #ifdef HAVE_STROPTS_H
 # include <sys/stropts.h>
@@ -77496,12 +77374,9 @@ struct event
 # include <langinfo.h>
 #endif
 
-#include "screen.h"
 #ifdef HAVE_BRAILLE
-# include "braille.h"
 #endif
 
-#include "patchlevel.h"
 
 /*
  *  At the moment we only need the real password if the
@@ -77517,7 +77392,6 @@ struct event
 # include <shadow.h>
 #endif /* SHADOWPW */
 
-#include "logfile.h" /* islogfile, logfflush, logfopen/logfclose */
 
 #ifdef DEBUG
 FILE *dfp;
@@ -77665,7 +77539,6 @@ int af;
 /*
  * Do this last
  */
-#include "extern.h"
 
 char strnomem[] = "Out of memory.";
 
@@ -77781,10 +77654,16 @@ int main(int ac, char** av)
 #endif
   struct NewWindow nwin;
   int detached = 0;		/* start up detached */
+  /* Detached restart and session-file support:
+   *   - -d enables restart-on-failure
+   *   - -d on|off toggles autostart in the saved session file
+   *   - session_file stores the socket name plus autostart state
+   */
   int restart_on_failure = 0;
   int autostart_enabled = -1;
   char *session_file = NULL;
   char session_file_buf[MAXSTR];
+  /* Procedure/template support for --param, --parstart, --routine, --endsWith */
   char *proc_name = NULL;
   char *proc_template = NULL;
   int proc_start = 0;
@@ -77949,6 +77828,9 @@ int main(int ac, char** av)
       if (ap[1] == '-' && !strcmp(ap, "--help"))
         exit_with_usage(myname, NULL, NULL);
       if (ap[1] == '-' && !strcmp(ap, "--param")) {
+        /* Define a reusable command template. The template may use %1, %2, etc.
+         * The stored name can later be launched via --parstart.
+         */
         if (ac <= 1)
           exit_with_usage(myname, "Specify a procedure name with --param", NULL);
         proc_name = SaveStr(*++av);
@@ -78191,6 +78073,11 @@ int main(int ac, char** av)
 
 #ifdef REMOTE_DETACH
           case 'd':
+          /* -d [session] [file]
+           *   Enable detached restart-on-failure using an optional session file.
+           * -d on|off [session]
+           *   Toggle autostart state within the session file.
+           */
             if (*(ap + 1) == '\0') {
               restart_on_failure = 1;
               if (ac > 1 && *av[1] != '-' && !SockMatch) {
@@ -78890,6 +78777,10 @@ child_start:
   ServerSocket = MakeServerSocket(true);
 
   if (session_file) {
+    /* Persist the session file in a simple text format:
+     *   <session-name>
+     *   autostart:on|off
+     */
     FILE *sf = fopen(session_file, "w");
     if (!sf)
       Panic(errno, "Cannot write session file %s", session_file);
@@ -80991,7 +80882,6 @@ void SetTtyname(bool fatal, struct stat *st)
  * $Id$ GNU
  */
 
-#include "os.h"
 
 #if defined(__STDC__)
 # ifndef __P
@@ -81004,14 +80894,7 @@ void SetTtyname(bool fatal, struct stat *st)
 # define const
 #endif
 
-#include "osdef.h"
 
-#include "ansi.h"
-#include "sched.h"
-#include "acls.h"
-#include "comm.h"
-#include "layer.h"
-#include "term.h"
 
 
 #ifdef DEBUG
@@ -81116,10 +80999,6 @@ struct mode
 
 
 /* #include "logfile.h" */	/* (requires stat.h) struct logfile */
-#include "image.h"
-#include "canvas.h"
-#include "display.h"
-#include "window.h"
 
 /*
  * Parameters for the Detach() routine
@@ -81318,10 +81197,6 @@ struct baud_values
 
 #include <sys/types.h>
 
-#include "config.h"
-#include "screen.h"
-#include "mark.h"
-#include "extern.h"
 
 #define INPUTLINE (flayer->l_height - 1)
 
@@ -81702,7 +81577,6 @@ ISearch(int dir)
  ****************************************************************
  */
 
-#include "config.h"
 #include <stdbool.h>
 #include <string.h>
 #include <unistd.h>
@@ -81719,7 +81593,6 @@ ISearch(int dir)
 # include <signal.h>
 #endif
 
-#include "screen.h"
 
 #ifdef HAVE_DIRENT_H
 # include <dirent.h>
@@ -81735,8 +81608,6 @@ ISearch(int dir)
 #define CMSG_SPACE(length) ((_CMSG_DATA_ALIGN(sizeof(struct cmsghdr))) + (_CMSG_DATA_ALIGN(length)))
 #endif
 
-#include "extern.h"
-#include "list_generic.h"
 
 static int   CheckPid __P((int));
 static void  ExecCreate __P((struct msg *));
@@ -83666,12 +83537,9 @@ const char *path;
 #include <netdb.h>
 #include <stdio.h>
 
-#include "config.h"
 
 #ifdef BUILTIN_TELNET
 
-#include "screen.h"
-#include "extern.h"
 
 extern struct win *fore;
 extern struct layer *flayer;
@@ -84241,7 +84109,6 @@ int l;
  ****************************************************************
  */
 
-#include "term.h"
 
 #define KMAPDEF(s)
 #define KMAPADEF(s)
@@ -84543,9 +84410,6 @@ struct term term[T_N] =
  */
 
 #include <sys/types.h>
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 extern struct display *display, *displays;
 extern int real_uid, real_gid, eff_uid, eff_gid;
@@ -86322,9 +86186,6 @@ for(;j%12;q[j--]=0);u();for(;--j;q[j+12]=q[j]);u();}n=f+rand()%7*4;G(x=17)||(c
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
 
 #ifdef HAVE_UTEMPTER
 #include <utempter.h>
@@ -87223,10 +87084,6 @@ struct utmp *u;
  ****************************************************************
  */
 
-#include "config.h"
-#include "screen.h"
-#include "extern.h"
-#include "viewport.h"
 
 extern struct display *display;
 
@@ -87359,7 +87216,6 @@ void RethinkViewportOffsets(struct canvas *cv)
 #ifndef SCREEN_VIEWPORT_H
 #define SCREEN_VIEWPORT_H
 
-#include "canvas.h"
 
 struct viewport
 {
@@ -87420,11 +87276,7 @@ extern void   RethinkViewportOffsets __P((struct canvas *));
 # include <sys/ioctl.h>
 #endif
 
-#include "config.h"
 
-#include "screen.h"
-#include "extern.h"
-#include "logfile.h"	/* logfopen() */
 
 extern struct display *displays, *display;
 extern struct win *windows, *fore, *console_window;
